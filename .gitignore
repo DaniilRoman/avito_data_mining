@@ -1,0 +1,10 @@
+/tmp/
+/data/
+/errorTrees/
+/vipHrefList/
+/geocoderError/
+/.ipynb_checkpoints/
+/**/*.log
+/**/*.xml
+/**/*.iml
+/.idea/
