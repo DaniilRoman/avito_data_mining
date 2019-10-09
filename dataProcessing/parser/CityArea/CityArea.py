@@ -1,13 +1,15 @@
 import pandas as pd
-import parser.Logger as log
+import dataProcessing.parser.Logger as log
 import requests
 import json
 
-from parser.geocoder.Geocoder import prefix
+from dataProcessing.parser.geocoder import prefix
 
 
 def getArea():
-    flats = pd.read_csv(prefix + 'updated_flats.csv')
+    flats = pd.read_csv(prefix + 'flats.csv')
+
+    # filteredFlats = flats[flats.postalCode.isnull()]
 
     addNewColumns(flats)
 
@@ -22,14 +24,22 @@ def getArea():
             data = json.loads(responseGeoCoder.text)
 
             try:
-                area = data['features'][0]['properties']['geocoding']['admin']['level9']
-                flats.loc[flats['adress'] == address, 'area'] = area
+                admin = data['features'][0]['properties']['geocoding']['admin']
+                for i in range(9, 3, -1):
+                    try:
+                        area = admin['level' + str(i)]
+                        if "район" in str(area):
+                            flats.loc[flats['adress'] == address, 'area'] = area
+                            break
+                    except Exception:
+                        pass
+
             except Exception:
                 log.error('Area not exist for: %s' % str(lat) + " " + str(lon))
 
             try:
                 postalCode = data['features'][0]['properties']['geocoding']['postcode']
-                flats.loc[flats['adress'] == address and (flats['postalCode'] == '' or flats['postalCode'] == None),
+                flats.loc[(flats['adress'] == address) & (flats['postalCode'].isnull()),
                           'postalCode'] = postalCode
             except Exception:
                 log.error('Postal code not exist for: %s' % str(lat) + " " + str(lon))

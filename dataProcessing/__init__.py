@@ -1,9 +1,3 @@
-from parser.MainParser import parse
-from parser.dataClearing.AddressClearing import clearDataAndSave
-from parser.dataClearing.CsvCombiner import combineCsv
-
-import pandas as pd
-
 if __name__ == "__main__":
     # STAGE 1
     # parse()

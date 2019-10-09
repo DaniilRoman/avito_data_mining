@@ -2,7 +2,7 @@ import os
 import csv
 from time import time
 
-import parser.Logger as log
+import dataProcessing.parser.Logger as log
 
 currentDir = lambda fileName: os.path.join(fileName)
 

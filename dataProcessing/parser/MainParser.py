@@ -3,8 +3,8 @@ import numpy as np
 from bs4 import BeautifulSoup
 from time import sleep
 
-from parser.OnePageData import handleOnePage
-from parser.VipOrderHandler import handleVipOrder
+from dataProcessing.parser.OnePageData import handleOnePage
+from dataProcessing.parser.VipOrderHandler import handleVipOrder
 
 
 def parse():

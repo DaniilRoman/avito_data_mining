@@ -1,9 +1,9 @@
 import pandas as pd
-import parser.Logger as log
+import dataProcessing.parser.Logger as log
 import requests
 import json
 
-from parser.Writer import writeEncoderError
+from dataProcessing.parser.Writer import writeEncoderError
 
 prefix = '../../'
 
@@ -28,7 +28,7 @@ def restCallAndUpdateData(address, flats):
         data = None
         address = str(address)
         preparedAddress = prepareAddress(address)
-        geoCoderUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey=c90067e4-8c6e-4738-8b70-0a0386fa3fdc' \
+        geoCoderUrl = 'https://geocode-maps.yandex.ru/1.x/?format=json&apikey=yourKey' \
                       '&geocode=%s' % preparedAddress
         responseGeoCoder = requests.get(geoCoderUrl)
         data = json.loads(responseGeoCoder.text)

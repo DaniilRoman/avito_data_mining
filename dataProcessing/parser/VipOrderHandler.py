@@ -1,4 +1,4 @@
-from parser.Writer import writeVipHrefs
+from dataProcessing.parser.Writer import writeVipHrefs
 
 
 def handleVipOrder(tree):

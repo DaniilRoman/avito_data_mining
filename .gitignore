@@ -1,8 +1,8 @@
-/tmp/
-/data/
-/errorTrees/
-/vipHrefList/
-/geocoderError/
+/dataProcessing/tmp/
+/dataProcessing/data/
+/dataProcessing/errorTrees/
+/dataProcessing/vipHrefList/
+/dataProcessing/geocoderError/
 /.ipynb_checkpoints/
 /**/*.log
 /**/*.xml

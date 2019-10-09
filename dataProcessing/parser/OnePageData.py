@@ -1,7 +1,7 @@
 import re
 
-import parser.Logger as log
-from parser.Writer import writeErrorTree, writeToFile
+import dataProcessing.parser.Logger as log
+from dataProcessing.parser.Writer import writeErrorTree, writeToFile
 
 
 def handleOnePage(flats, dates, pageNumber):
