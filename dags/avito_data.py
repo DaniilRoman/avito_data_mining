@@ -59,6 +59,3 @@ class SaveExceptions:
                 raise Exception(self.msg)
             return result
         return wrapper
-
-if __name__ == "__main__":
-    print("its works")

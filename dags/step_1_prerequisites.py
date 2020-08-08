@@ -49,8 +49,3 @@ class Prerequisites:
             parser.get_time_of_creation(flat)
 
         print("Prerequisites for flats extracted.")
-
-if __name__ == "__main__":
-    context.store = Store()
-    context.parser = PageParser()
-    Prerequisites().execute()

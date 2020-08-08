@@ -19,7 +19,7 @@ class HtmlPagesDownloader:
     def execute(self):
         print("\n/////////\n/// HtmlPagesDownloader part\n/////////")
 
-        for page_number in range(34, self.max_page_count):
+        for page_number in range(1, self.max_page_count):
             response = requests.get(self.url.format(page_number))
             
             if response.status_code != 200:
@@ -44,6 +44,3 @@ class HtmlPagesDownloader:
         if r > 8:
             r = 6.6666
         sleep(r)
-
-if __name__ == "__main__":
-    HtmlPagesDownloader().execute()

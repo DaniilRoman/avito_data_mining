@@ -32,13 +32,15 @@ class AreaGetter():
 
         flats[self.area] = ''
 
-        for index, flat in flats.iterrows():
+        for _, flat in flats.iterrows():
             address = flat[self.address]
             lat = flat[self.latitude]
             lon = flat[self.longitude]
 
             area = self.__rest_call(address, lat, lon)
-            self.__update_file(address, flats, filename, area)
+            self.__update_flats(address, flats, area)
+        
+        flats.to_csv(filename, index=False)
 
     @CatchError(msg="Rest call for getting area failled.")
     def __rest_call(self, address, lat, lon) -> str:
@@ -57,12 +59,5 @@ class AreaGetter():
         return "область"
 
     @CatchError(msg="Fail on update file with address on getting area")
-    def __update_file(self, address, flats, filename, area):
+    def __update_flats(self, address, flats, area):
         flats.loc[flats[self.address] == address, self.area] = area
-
-        flats.to_csv(filename, index=False)
-
-from store import Store 
-if __name__ == "__main__":
-    context.store = Store()
-    AreaGetter().execute()

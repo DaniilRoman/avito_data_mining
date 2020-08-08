@@ -19,10 +19,3 @@ class Aggregator():
         print(filenames)
         aggregated_csv = pd.concat([pd.read_csv(f) for f in filenames])
         context.store.to_csv(aggregated_csv)
-
-
-    
-from store import Store 
-if __name__ == "__main__":
-    context.store = Store()
-    Aggregator().execute()

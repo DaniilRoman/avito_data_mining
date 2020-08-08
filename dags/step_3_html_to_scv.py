@@ -10,6 +10,8 @@ from store import Store
 import context
 from utils import get_all_filenames
 
+from avito_data import exceptions, ParseException
+
 class MainFeatureExtracter:
 
     def __init__(self):
@@ -38,14 +40,22 @@ class MainFeatureExtracter:
             flats = self.parser.get_all_flats(tree)
 
             for flat_html in flats:
-                flat = self.__flat_from(flat_html)
+                try:
+                    flat = self.__flat_from(flat_html)
+                except Exception:
+                    self.__skip_flat(filename, flat_html)
+                    continue
                 flat_list.append(flat)
 
         return flat_list
 
+    def __skip_flat(self, filename, flat_html):
+        msg = "Cannot convert to flat from {}\n".format(filename)
+        print(msg)
+        exceptions.append(ParseException(msg, str(flat_html)))
 
     def __flat_from(self, flat_html) -> AvitoFlat:
-        flat_floor, building_floor, =self.parser.get_floors(flat_html)
+        flat_floor, building_floor = self.parser.get_floors(flat_html)
         
         flat = AvitoFlat(
             href=self.parser.get_href(flat_html),
@@ -63,7 +73,3 @@ class MainFeatureExtracter:
         )
 
         return flat
-
-if __name__ == "__main__":
-    MainFeatureExtracter().execute()
-

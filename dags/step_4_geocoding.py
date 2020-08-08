@@ -4,7 +4,7 @@ import json
 import os
 
 import context
-from utils import get_all_filenames
+from utils import get_all_csv_filenames
 from avito_data import SaveExceptions, CatchError
 
 class Geocoder():
@@ -18,8 +18,7 @@ class Geocoder():
     def execute(self):
         print("\n/////////\n/// Geocoder part\n/////////")
 
-        folder_path = context.store.get_csv_folder()
-        all_filenames = get_all_filenames(folder_path)
+        all_filenames = get_all_csv_filenames()
         
         for filename in all_filenames:
             self.transform(filename)
@@ -32,7 +31,10 @@ class Geocoder():
 
         for address in flats.address:
             latitude, longitude, postal_code = self.__rest_call(address, flats)
-            self.__update_file(address, flats, filename, latitude, longitude, postal_code)
+            self.__update_flats(address, flats, latitude, longitude, postal_code)
+        
+        flats.to_csv(filename, index=False)
+
 
     @CatchError(msg="Rest call was failed !!!")
     def __rest_call(self, address, flats):
@@ -70,12 +72,10 @@ class Geocoder():
         return address
 
     @CatchError(msg="Fail on update file with address on geocoder")
-    def __update_file(self, address, flats, filename, latitude, longitude, postal_code):
+    def __update_flats(self, address, flats, latitude, longitude, postal_code):
         flats.loc[flats[self.address] == address, self.latitude] = latitude
         flats.loc[flats[self.address] == address, self.longitude] = longitude
         flats.loc[flats[self.address] == address, self.postal_code] = postal_code
-
-        flats.to_csv(filename, index=False)
 
 
     def __add_new_columns(self, flats):

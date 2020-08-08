@@ -7,18 +7,20 @@ from typing import List
 from utils import get_all_filenames
 from avito_data import AvitoFlat, ParseException
 
+from context import FOLDER_CITY_PREFIX
+
 
 class Store:
 
-    _EXCEPTIONS_FOLDER: str = "./exceptions"
+    _EXCEPTIONS_FOLDER: str = "./exceptions/" + FOLDER_CITY_PREFIX
     _EXCEPTIONS_FILE_PATH = _EXCEPTIONS_FOLDER + "/{}__{}.txt"
     _exceptions_count = 1
 
-    _HTML_PAGES_FOLDER: str = "./avito_html_pages"
-    _CSV_PAGES_FOLDER: str = "./avito_csv_pages"
+    _HTML_PAGES_FOLDER: str = "./avito_html_pages/" + FOLDER_CITY_PREFIX
+    _CSV_PAGES_FOLDER: str = "./avito_csv_pages/" + FOLDER_CITY_PREFIX
     _RESULT_FOLDER: str = "./avito"
 
-    _RESULT_FILE_PATH = _RESULT_FOLDER + "/flats_{}.csv"
+    _RESULT_FILE_PATH = _RESULT_FOLDER + "/" + FOLDER_CITY_PREFIX + "_flats_{}.csv"
 
     def __init__(self):
         # create folders if not exists
