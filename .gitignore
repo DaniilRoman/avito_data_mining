@@ -5,7 +5,7 @@
 /dataProcessing/geocoderError/
 /.ipynb_checkpoints/
 /**/*.log
-/**/*.xml
+# /**/*.xml
 /**/*.iml
 /.idea/
 
