@@ -17,13 +17,13 @@ import kotlin.random.Random
 
 @OptIn(DelicateCoroutinesApi::class)
 class MainPageScraper() {
-    val log = KtorSimpleLogger(this.javaClass.name)
-    val client = HttpClient(CIO) {
+    private val log = KtorSimpleLogger(this.javaClass.name)
+    private val client = HttpClient(CIO) {
         install(Logging) {
             level = LogLevel.INFO
         }
     }
-    val mainPagesScrappingDispatcher = newFixedThreadPoolContext(10, "Avito main pages scrabber")
+    private val mainPagesScrappingDispatcher = newFixedThreadPoolContext(10, "Avito main pages scrabber")
 
     suspend fun run(context: MainPagesScraperContext) = withContext(mainPagesScrappingDispatcher) {
         val dirPath = context.dirPath
@@ -40,9 +40,11 @@ class MainPageScraper() {
             val pageUrl = constructPageUrl(url, pageNumber)
             val fileName = constructFilename(pageNumber)
 
-            val createFileDeferred = async(CoroutineName("Create new file for page $pageNumber\"")) {
+            val createFileDeferred = async(CoroutineName("Create new file for page $pageNumber")) {
                 val newFileForContent = Paths.get(dirPath, fileName)
-                newFileForContent.toFile().createNewFile()
+                withContext(Dispatchers.IO) {
+                    newFileForContent.toFile().createNewFile()
+                }
                 newFileForContent
             }
 
